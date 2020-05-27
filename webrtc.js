@@ -13,4 +13,7 @@ async function playLocalVideo() {
     }
 }
 
+const wsurl = window.location.href.replace("http", "ws");
+const webSocket = new WebSocket(wsurl);
+
 playLocalVideo();
