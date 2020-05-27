@@ -13,7 +13,23 @@ async function playLocalVideo() {
     }
 }
 
+const chatInput = document.getElementById("chat-input");
+const chatOutput = document.getElementById("chat-output");
+chatInput.addEventListener("keyup", function(event) {
+    if(event.key == "Enter") {
+        var message = document.createElement("li");
+        var date = (new Date()).toISOString();
+        var textnode = document.createTextNode(date + ": " + chatInput.value);
+        message.appendChild(textnode);
+
+        chatOutput.appendChild(message)
+
+        chatInput.value = "";
+    }
+});
+
 const wsurl = window.location.href.replace("http", "ws");
 const webSocket = new WebSocket(wsurl);
 
+chatInput.focus();
 playLocalVideo();

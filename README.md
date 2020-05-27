@@ -35,3 +35,4 @@ localVideo.srcObject = stream;
 Next, Alice needs to form a peer-to-peer connection with Bob so she can attach his remote MediaStream to her `remoteVideo` html element.
 
 In order for Alice and Bob to be able to initiate a peer-to-peer connection, they need a signaling channel, which the WebRTC specification doesn't specify. Let's use a [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API).
+
