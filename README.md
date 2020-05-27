@@ -23,7 +23,7 @@ Then, we need to attach the client's video stream to a `<video>` html element.
 Assume the element looks like this:
 
 ``` html
-<video id="localVideo" autoplay playsinline controls="false"/>
+<video id="localVideo" autoplay playsinline controls="false" />
 ```
 
 Now we need to glue the `MediaStream` to the `localVideo` element.

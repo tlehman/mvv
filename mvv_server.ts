@@ -8,24 +8,23 @@ const decoder = new TextDecoder('utf-8');
 
 async function dispatch(request: ServerRequest) {
     switch(request.url) {
-        case '/': 
-        case '/index.html': 
-            const html = decoder.decode(await Deno.readFile("index.html"));
-            request.respond({body: html});
+        case '/favicon.ico': 
+            request.respond({status: 404});
             break;
         case '/webrtc.js': 
             const js = decoder.decode(await Deno.readFile("webrtc.js"));
             request.respond({body: js});
             break;
         default:
-            request.respond({status: 404});
+            const sessionId = request.url.split("/")[1];
+            console.log(`Visited ${request.url}`);
+            console.log({ body: `Session Id = ${sessionId}` });
+            const html = decoder.decode(await Deno.readFile("index.html"));
+            request.respond({body: html});
     }
 
 }
 
 for await (const req: ServerRequest of server) {
     dispatch(req);
-    //const sessionId = req.url.split("/")[1];
-    //req.respond({ body: `Session Id = ${sessionId}` });
-    //console.log(`Visited ${req.url}`);
 }
