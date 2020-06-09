@@ -3,10 +3,19 @@ import {
     acceptable,
     acceptWebSocket,
     isWebSocketCloseEvent,
-    isWebSocketPingEvent
+    isWebSocketPingEvent,
+    WebSocket
 } from "https://deno.land/std/ws/mod.ts";
-const port = 8000;
-const server = serve({ port: port });
+const hostname = '0.0.0.0';
+const port = 8080;
+const server = serve({ hostname: hostname, port: port });
+const clients: Array<WebSocket> = new Array<WebSocket>();
+
+function sendAll(message: string) {
+    for(var i = 0; i < clients.length; i++) {
+        clients[i].send(message);
+    }
+}
 
 console.log(`MVV Server on ${port}`);
 
@@ -23,12 +32,13 @@ async function handleWebSocket(request: ServerRequest) {
             headers,
         });
         console.log("WebSocket connected!");
+        clients.push(sock); // save client
         try {
             for await (const ev of sock) {
                 if (typeof ev === "string") {
                     // text message
                     console.log("ws:Text", ev);
-                    await sock.send(ev);
+                    sendAll(ev);
                 } else if (ev instanceof Uint8Array) {
                     // binary message
                     console.log("ws:Binary", ev);

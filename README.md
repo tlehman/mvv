@@ -1,4 +1,4 @@
-# MVV (Minmum Viable Videoconferencing)
+# MVV (Minimum Viable Videoconferencing)
 
 This demo uses [WebRTC](https://webrtc.org) to build a basic Videoconferencing application like Zoom and Amazon Chime.
 

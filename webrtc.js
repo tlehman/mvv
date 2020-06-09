@@ -13,23 +13,32 @@ async function playLocalVideo() {
     }
 }
 
-const chatInput = document.getElementById("chat-input");
-const chatOutput = document.getElementById("chat-output");
-chatInput.addEventListener("keyup", function(event) {
-    if(event.key == "Enter") {
-        var message = document.createElement("li");
-        var date = (new Date()).toISOString();
-        var textnode = document.createTextNode(date + ": " + chatInput.value);
-        message.appendChild(textnode);
-
-        chatOutput.appendChild(message)
-
-        chatInput.value = "";
-    }
-});
 
 const wsurl = window.location.href.replace("http", "ws");
 const webSocket = new WebSocket(wsurl);
+
+webSocket.onmessage = function (ev) {
+    const chatInput = document.getElementById("chat-input");
+    const chatOutput = document.getElementById("chat-output");
+    const message = document.createElement("li");
+    const messageData = ev.data || chatInput.value;
+    const date = (new Date()).toISOString();
+    const textnode = document.createTextNode(date + ": " + messageData);
+    message.appendChild(textnode);
+
+    chatOutput.append(message);
+
+    chatInput.value = "";
+}
+
+const chatInput = document.getElementById("chat-input");
+chatInput.addEventListener("keyup", function(event) {
+    if(event.key == "Enter") {
+        const chatInput = document.getElementById("chat-input");
+        console.log(`sending ${chatInput.value}`);
+        webSocket.send(chatInput.value);
+    }
+});
 
 chatInput.focus();
 playLocalVideo();
