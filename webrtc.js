@@ -1,3 +1,5 @@
+// different browsers
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 const openMediaDevices = async (constraints) => {
     return navigator.mediaDevices.getUserMedia(constraints);
 }
